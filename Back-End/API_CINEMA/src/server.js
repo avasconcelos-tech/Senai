@@ -9,7 +9,7 @@ pool.getConnection((err,conection) => {
         process.exit(1)
     }
 
-    console.log('Conectadoao MySQL!!')
+    console.log('Conectado ao MySQL!!')
     conection.release()
 })
 

@@ -10,4 +10,9 @@ app.get('/', (req,res) =>{
 })
 
 app.get('/filmes', (req,res) =>{
-    pool.query(
+    pool.query('SELECT * FROM filme',(err, results) =>{
+        res.json(results)
+    })
+})
+
+module.exports = app

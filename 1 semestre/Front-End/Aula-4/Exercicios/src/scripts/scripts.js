@@ -55,7 +55,7 @@
 // alert(`O número sorteado foi: ${sistema.toFixed(0)}`)
 
 //==============================================
-//EXERCÍCIO 5 - Gestão de Frota (Orientação a Objetos)
+//EXERCÍCIO 5 - Gestão de Frota (Orientação a Objetos)Enunciado: Crie uma classe chamada Veiculo.
 //==============================================
 
 class Veiculo{
@@ -66,6 +66,14 @@ class Veiculo{
     }
 
     idadeVeiculo(anoAtual){
-        
+        return anoAtual - this.ano        
+    }
+    objeto(){
+        const data = new Date()
+        const anoAtual = data.getFullYear()
+        alert(`O modelo do carro é: ${this.modelo} e a idade dele é: ${this.idadeVeiculo(anoAtual)} anos.`)
     }
 }
+
+const carro1 = new Veiculo("Corolla", "Toyota", 2020)
+carro1.objeto()

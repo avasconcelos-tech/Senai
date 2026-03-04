@@ -1,8 +1,8 @@
 from machine import Pin
 from utime import sleep
 
-led = Pin("LED", Pin.OUT)
+led = Pin(16, Pin.OUT)
 
 while True:
     led.toggle()
-    sleep(0.8)
+    sleep(1)

@@ -27,11 +27,5 @@ saudacao.textContent = hora < 18 ? "Bem vindo, bom almoço" : "Bem vindo, boa ja
 
 nomeCompleto.innerHTML = "<strong>Ana Katy</strong> <em>Romão</em> Vasconcellos" 
 
-
-const foto = document.querySelector('#foto-destaque')
-
-const caminhoAtual = foto.getAttribute('src')
-
-foto.setAttribute('src', 'src/images/esgotado.jpg')
-foto.setAttribute('alt', 'Prato esgotado!!')
-
+const imagem_card_um = document.querySelector('#foto-destaque')
+imagem_card_um.src = './src/images/esgotado.jpg'

@@ -13,7 +13,6 @@ if(inputQtdLasanha && textoPreco){ //Verifica se tem o valor
 
         textoPreco.style.color = total > 150 ? "#c0392b" : "#f3641d"
     })
-
 }
 
 btn.addEventListener('click', function() {
@@ -22,3 +21,13 @@ console.log("O vigia detectou um clique no botão!");
 btn.textContent = "Processando...";
 });
 
+//3. Adicionando ouvinte compartilhado (classe) EVEENT.TARGET
+
+const massas = document.querySelector("#secao-massas")
+
+massas.addEventListener('click', (event) =>{
+    const clicado = event.target
+
+    if(clicado.classList.contains('btn-pedido'))
+        
+})

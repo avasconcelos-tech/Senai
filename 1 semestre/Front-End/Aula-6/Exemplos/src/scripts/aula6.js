@@ -28,6 +28,8 @@ const massas = document.querySelector("#secao-massas")
 massas.addEventListener('click', (event) =>{
     const clicado = event.target
 
-    if(clicado.classList.contains('btn-pedido'))
-        
+    if(clicado.classList.contains('btn-pedido')){
+        console.log("Você clicou em um botão de pedido de MASSA!")
+    }
+
 })

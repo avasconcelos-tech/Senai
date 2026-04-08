@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function ExercicioView06() {
+export default function ExercicioView12() {
   return <View style={styles.container}></View>;
 }
 
@@ -15,25 +15,21 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
-  redBox: {
-    height: 80,
-    width: 80,
-
-    backgroundColor: "red",
+  cinza_box: {
+   flex: 1,
+    backgroundColor: "#5c5c5c",
     alignItems: "center",
     justifyContent: "center",
   },
-  greenBox: {
-    height: 80,
-    width: 80,
-    backgroundColor: "green",
+  green_box: {
+    height: 60,
+    backgroundColor: "#0b8227",
     alignItems: "center",
     justifyContent: "center",
   },
-  blueBox: {
-    height: 80,
-    width: 80,
-    backgroundColor: "blue",
+  blue_box: {
+    height: 50,
+    backgroundColor:  "#102bf7",
     alignItems: "center",
     justifyContent: "center",
   },

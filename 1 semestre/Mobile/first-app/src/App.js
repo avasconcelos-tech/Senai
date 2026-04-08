@@ -14,12 +14,16 @@ import Exercicio5 from './Lista1_FlexBox_Views/Exercicio5';
 import Exercicio6 from './Lista1_FlexBox_Views/Exercicio6';
 import Exercicio7 from './Lista1_FlexBox_Views/Exercicio7';
 import Exercicio8 from './Lista1_FlexBox_Views/Exercicio8';
+import Exercicio12 from './Atividades_praticas_somativa/Exercicio20';
+import Exercicio20 from './Atividades_praticas_somativa/Exercicio20';
+import Exercicio21 from './Atividades_praticas_somativa/Exercicio21';
+
 
 
 export default function App() {
   return (
     <View style={styles.container}>
-     <Exercicio8/>
+     <Exercicio20/>
     </View>
   );
 }

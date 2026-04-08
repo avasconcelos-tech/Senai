@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
    green_box: {
-    flex: 1,
+    flex: 2,
     backgroundColor: "#1d7212",
     justifyContent: "center",
     alignItems: "center",

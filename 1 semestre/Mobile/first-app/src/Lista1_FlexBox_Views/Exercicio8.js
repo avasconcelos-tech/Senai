@@ -5,6 +5,7 @@ export default function Exercicio8() {
     <View style={styles.container}>
       <Text style={styles.titulo}>Exercício 8 — Sidebar com Área de Conteúdo</Text>
         
+        
         <View style={styles.containerRow}>
             <View style={styles.Sidebar_box}>
             <Text style={styles.textStyle}>Sidebar</Text>
@@ -26,6 +27,7 @@ export default function Exercicio8() {
       </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

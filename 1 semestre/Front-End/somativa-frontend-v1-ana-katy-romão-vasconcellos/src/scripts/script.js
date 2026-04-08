@@ -44,8 +44,6 @@ if(btnAdicionar <= 0 || value ==""){
     
 }
 
-
-
 // Missão 5: Cancelar Pedido
 const btnCancelar = document.querySelector('#btn-cancelar');
 

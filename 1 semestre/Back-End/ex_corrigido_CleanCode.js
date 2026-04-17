@@ -1,18 +1,39 @@
 //Exercício 1
 
-app.get('/pedidos', async (req, res) => {
-    const pedido = await queryAsync("SELECT * FROM pedidos")
-    res.send(pedido)
+const { error } = require("node:console")
+
+app.get('/ususarios', async (req, res) => {
+    try{
+    const listaUsuarios = await queryAsync("SELECT * FROM usuarios")
+    res.status(200).json({
+        sucesso: true,
+        dados: listaUsuarios,
+        total: listaUsuarios.length
+    })
+
+    } catch(erro){
+        res.status(500).json({
+            sucesso: false,
+            mensagem:"Erro ao listar usuários"
+        })
+    }
 })
 
-app.get('/pedidos/:id', async (req, res) => {
-    const pedido = await queryAsync("SELECT * FROM pedidos WHERE id = ?", [req.params.id])
+app.get('/usuarios/:id', async (req, res) => {
+    try{
+    const usuario = await queryAsync("SELECT * FROM usuarios WHERE id = ?", [req.params.id])
 
-    if (pedido.length == 0) {
+    if (usuario.length == 0) {
         res.send("erro")
     } else {
-        res.send(pedido[0])
+        res.send(usuario[0])
     }
+}catch (erro){
+     res.status(500).json({
+            sucesso: false,
+            mensagem:"Erro ao listar usuários"
+        })
+}
 })
 
 //Exercício 2

@@ -1,175 +1,149 @@
+const validarExistencia = (resultado, res, tipo) => {
+  if (resultado.length === 0) {
+    res.status(404).json({
+      sucesso: false,
+      mensagem: `${tipo} não encontrado`,
+    });
+    return false;
+  }
+  return true;
+};
+
 //Exercício 1
 
-const { error } = require("node:console")
-
-app.get('/ususarios', async (req, res) => {
-    try{
-    const listaUsuarios = await queryAsync("SELECT * FROM usuarios")
+app.get("/ususarios", async (req, res) => {
+  try {
+    const listaUsuarios = await queryAsync("SELECT * FROM usuarios");
     res.status(200).json({
-        sucesso: true,
-        dados: listaUsuarios,
-        total: listaUsuarios.length
-    })
+      sucesso: true,
+      dados: listaUsuarios,
+      total: listaUsuarios.length,
+    });
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: "Erro ao listar usuários",
+    });
+  }
+});
 
-    } catch(erro){
-        res.status(500).json({
-            sucesso: false,
-            mensagem:"Erro ao listar usuários"
-        })
+app.get("/usuarios/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const usuario = await queryAsync("SELECT * FROM usuarios WHERE id = ?", [
+      req.params.id,
+    ]);
+
+    if (!validarExistencia(usuario, res, "usuario")) {
+      return;
     }
-})
 
-app.get('/usuarios/:id', async (req, res) => {
-    try{
-    const usuario = await queryAsync("SELECT * FROM usuarios WHERE id = ?", [req.params.id])
-
-    if (usuario.length == 0) {
-        res.send("erro")
-    } else {
-        res.send(usuario[0])
-    }
-}catch (erro){
-     res.status(500).json({
-            sucesso: false,
-            mensagem:"Erro ao listar usuários"
-        })
-}
-})
+    res.status(200).json({
+      sucesso: true,
+      dados: usuario[0],
+    });
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: "Erro ao listar usuários",
+    });
+  }
+});
 
 //Exercício 2
 
-app.post('/pedidos', async (req, res) => {
-    try {
-            const { cliente, valor } = req.body
-            
-    if (!cliente || valor) {
-        return res.status(400).json({
-            sucesso: false,
-            mensagem: "Cliente e Valor são obrigatórios",
-        })
+const validarDados = ({ cliente, valor }) => {
+  if (!cliente || !valor) {
+    return "Cliente e valor são obrigatórios";
+  }
+};
+
+if (typeof valor !== "number" || valor <= 0) {
+  return "valor inválido";
+}
+
+return null;
+
+app.post("/pedidos", async (req, res) => {
+  try {
+    const erro = validarDados(req.body);
+
+    if (erro) {
+      return res.status(400).json({
+        sucesso: false,
+        mensagem: erro,
+      });
     }
 
-    if (typeof valor !=="number" || valor <= 0) {
-        return res.status(400).json({
-            sucesso: false,
-            mensagem: "O valor deve ser um número positivo",
-        });
-    }
+    await queryAsync("INSERT INTO pedido SET ?", [req.body]);
 
-    const novoPedido = {
-        cliente: cliente.trim(),
-        valor: valor || null
-    }
-
-   const resultado = await queryAsync("INSERT INTO pedido SET ?", [novoPedido]);
-
-  res.status(201).json({
-            sucesso: true,
-            mensagem: "Pedido criado com sucesso",
-            id: resultado.insertId,
-        });
-    } catch (error) {
-       console.error("Erro ao listar os pedidos:", erro);
-    res.status(500).json({
+    res.status(201).json({
+      sucesso: true,
+      mensagem: "Pedido criado com sucesso",
+    });
+  } catch (erro) {
+    res(500).json({
       sucesso: false,
-      mensagem: "Erro ao listar os pedidos",
-      erro: erro.message,
-    }); 
-    }
-})
+      mensagem: "Erro ao criar pedido",
+    });
+  }
+});
 
 //Exercício 3
 
-app.put('/pedidos/:id', async (req, res) => {
-    try {
-        const id = req.params
-    const {cliente, valor} = req.body
+app.put("/sala/:id", async (req, res) => {
+  try {
+    const id = req.params;
+    const dados = req.body;
 
-    if (!id || isNaN(id)) {
+    const sala = await queryAsync("SELECT * FROM sala WHERE id = ?", [id]);
+
+    if (!validarExistencia(sala, res, "Sala")) {
+      return;
+    }
+
+    if (Object.keys(dados).length === 0) {
       return res.status(400).json({
         sucesso: false,
-        mensagem: "ID do pedido inválido",
+        mensagem: "Nenhum dado enviado.",
       });
     }
-    const pedidoExiste = await queryAsync("SELECT * FROM pedido WHERE id = ?", [id])
 
-    if (pedidoExiste.length === 0) {
-       return res.status(404).json({
-        sucesso: false,
-        mensagem: 'O pedido não foi encontrado'
-      })
-    }
+    await queryAsync("UPDATE sala SET ? WHERE id = ?", [dados, id]);
 
-      const pedidoAtualizado = {}
-
-      if(cliente !== undefined) produtoAtualizado.cliente = cliente.trim()
-    
-    if(valor !== undefined) {
-      if(typeof valor !== 'number' || valor <=0)
-        return res.status(400).json({
-          sucesso: false,
-          mensagem: 'O valor deve ser um número positivo.'
-     })
-     pedidoAtualizado.valor = valor
-    }
-
-    if(Object.keys(pedidoAtualizado).length === 0){
-      return res.status(400).json({
-        sucesso: false,
-        mensagem: 'Nenhum campo para atualizar'
-      })
-    }
-
-     
-    await queryAsync("UPDATE pedido SET ? WHERE id = ?", [pedidoAtualizado, id])
-    res.json({
-        sucesso: true,
-        mensagem: 'Pedido atualizado'
-    })
-        
-    } catch (erro) {
-          console.error('Erro ao atualizar Pedido', erro)
+    res.status(200).json({
+      sucesso: true,
+      mensagem: "Sala atualizada",
+    });
+  } catch (erro) {
     res.status(500).json({
       sucesso: false,
-      mensagem: 'Erro ao atualizar pedido',
-      erro: erro.message
-    })
-}
-})
+      mensagem: "Erro ao atualizar pedido",
+    });
+  }
+});
 
-app.delete('/pedido/:id', async (req, res) => {
-    try {
-         const {id} = req.params
+app.delete("/salas/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
 
-          if (!id || isNaN(id)) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: "ID do pedido inválido."
-            })
-        }
+    const sala = await queryAsync("SELECT * FROM sala WHERE id = ?", [id]);
 
-        const pedidoExiste = await queryAsync("SELECT * FROM pedido WHERE id = ?", [id])
+    if (!validarExistencia(sala, res, "Sala")) {
+      return;
+    }
 
-        if (pedidoExiste.length === 0) {
-            return res.status(404).json({
-                sucesso: false,
-                mensagem: 'O pedido não foi encontrado'
-            })
-        }
+    await queryAsync("DELETE FROM sala WHERE id = ?", [id]);
 
-        await queryAsync("DELETE FROM pedido WHERE id = ?", [id])
-
-         res.json({
-            sucesso: true,
-            mensagem:'O pedido foi deletado com sucesso!'
-        })
-    } catch (erro) {
-        console.error('Erro ao deletar Pedido', erro)
+    res.status(200).json({
+      sucesso: true,
+      mensagem: "Sala enviada",
+    });
+  } catch (erro) {
     res.status(500).json({
       sucesso: false,
-      mensagem: 'Erro ao deletar pedido',
-      erro: erro.message
-    })
-        
-    }
-})
+      mensagem: "Erro ao remover sala",
+    });
+  }
+});
+

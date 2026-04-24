@@ -1,18 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-
-import { Desafio } from './props/desafio';
-
-
-
-
+import Recados from './hooks/exercicios/ex_aula5';
 
 
 export default function App() {
   return (
     <View style={styles.container}>
 
-     <Desafio/>
+     <Recados/>
      
     </View>
 

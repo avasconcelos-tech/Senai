@@ -1,8 +1,21 @@
 const express = require('express')
 const pool = require('./config/database')
+const routes = require('./routes')
+
+app.use(express.json())
+
+app.use('/', routes)
+
+module.exports = app
 
 const app = express()
 app.use(express.json())
+
+function validarIdProduto(id){
+  if (!id || isNaN(id)){
+    return "ID inválido"
+  }
+}
 
 const queryAsync = (sql, values = []) => {
     return new Promise((resolve, reject) => {

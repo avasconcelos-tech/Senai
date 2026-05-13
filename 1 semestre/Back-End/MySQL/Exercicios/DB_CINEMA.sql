@@ -90,4 +90,4 @@ VALUES
 (1, 10, 'inteira', 30.00, 'pago'),
 (2, 15, 'meia', 14.00, 'pago'),
 (3, 20, 'inteira', 35.00, 'reservado');
-
+SELECT * FROM sessao;

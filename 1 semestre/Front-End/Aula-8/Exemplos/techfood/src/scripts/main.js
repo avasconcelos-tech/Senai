@@ -77,8 +77,8 @@ function inicializarVitrine() {
 
       const card = clicado.parentElement;
       const nomePrato = card.querySelector("h3").textContent;
-      const quantidade = card.querySelector(".qtd-valor").textContent;
-      const precoExibido = card.querySelector(".preco").textContent;
+      const quantidade = Number(card.querySelector(".qtd-valor").textContent);
+      const precoExibido = parseFloat(card.querySelector(".preco").getAttribute("data-preco"))
 
       clicado.textContent = "✔ Adicionado";
       clicado.style.backgroundColor = "#27ae60";
@@ -143,7 +143,7 @@ function salvarPedido(pedido){
 function atualizarContadorPedidos(){
   const lista = JSON.parse(localStorage.getItem("techfood_pedidos") || "[]")
   //Contador de itens do localStorage
-  const total = lista.reduce(function(acc, p){return acc + Number(p.qtd)}, 0) // Esse trecho soma a quantidade total de itens
+  const total = lista.reduce(function(acc, p){return acc +p.qtd}, 0) // Esse trecho soma a quantidade total de itens
   
   const linkMenu = document.querySelector("#menu a[href='pedidos.html']")
 
@@ -161,9 +161,6 @@ function atualizarContadorPedidos(){
   badge.textContent = total
   linkMenu.classList.add("menu-ativo")
 }
-
-
-
 
 // É funcionalidade NOVA (Apenas Visual)
 function exibirLinkPedidos(){

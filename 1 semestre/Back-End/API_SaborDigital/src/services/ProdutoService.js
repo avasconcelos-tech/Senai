@@ -27,7 +27,8 @@ class ProdutoService {
   }
 
   async cadastrarProduto(dados) {
-    const { nome, descricao, preco, categoria, disponivel } = dados;
+    const { nome, descricao, preco, categoria, disponivel, foto } = dados;
+    const precoNumero = Number(preco);
 
     if (!nome || !descricao || preco === undefined) {
       throw {
@@ -36,16 +37,17 @@ class ProdutoService {
       };
     }
 
-    if (typeof preco !== "number" || preco <= 0) {
+    if (isNaN(precoNumero) || precoNumero <= 0) {
       throw { status: 400, mensagem: "Preço deve ser um número positivo" };
     }
 
     const novoProduto = {
       nome: nome.trim(),
       descricao: descricao.trim(),
-      preco,
+      preco: precoNumero,
       categoria: categoria || null,
       disponivel: disponivel ?? true,
+      foto: foto || null,
     };
 
     const id = await ProdutoRepository.create(novoProduto);
@@ -68,7 +70,7 @@ class ProdutoService {
     }
 
     const atualizado = {};
-    const { nome, descricao, preco, categoria, disponivel } = dados;
+    const { nome, descricao, preco, categoria, disponivel, foto } = dados;
 
     if (nome !== undefined) atualizado.nome = nome.trim();
     if (descricao !== undefined) atualizado.descricao = descricao.trim();
@@ -80,7 +82,8 @@ class ProdutoService {
     }
     if (categoria !== undefined) atualizado.categoria = categoria;
     if (disponivel !== undefined) atualizado.disponivel = disponivel;
-
+    if(foto !== undefined) atualizado.foto = foto;
+    
     if (Object.keys(atualizado).length === 0) {
       throw {
         status: 400,

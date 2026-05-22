@@ -1,18 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
+import{ NavigationContainer } from "@react-navigation/native"
 
-
-
-import ListaDeCompras2 from './aula6/ex2';
-
+import DrawerNavigator from './navigation/drawer_navigation';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-
-     <ListaDeCompras2></ListaDeCompras2>
-     
-    </View>
-
+   <NavigationContainer>
+    <DrawerNavigator/>
+   </NavigationContainer>
   );
 }
 

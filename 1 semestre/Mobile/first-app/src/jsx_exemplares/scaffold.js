@@ -4,7 +4,7 @@
 
 import { View, Text, StyleSheet } from "react-native";
 
-export default function Exemplo03() {
+export default function ViewExemplo01() {
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}></Text>

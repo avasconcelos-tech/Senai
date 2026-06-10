@@ -1,68 +1,197 @@
-/* ==========================================================
-   PEDIDOS.CSS — Estilos da página de Pedidos (pedidos.html)
-   Aula 8: entregue pronto — o live code foca no pedidos.js
-   ========================================================== */
-
-/* ── Seção principal ─────────────────────────────────────── */
-#secao-pedidos {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 40px 20px;
+/* --- ESTILO BASE (mantido das aulas anteriores) --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
 
-/* ── Resumo rápido no topo ───────────────────────────────── */
-#resumo-pedidos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f8f9fa;
-  border: 1px solid #e0e0e0;
+#topo-loja {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+#bt_menu,
+#label-menu {
+  display: none;
+}
+
+#menu ul {
+  list-style: none;
+  margin-top: 10px;
+}
+
+#menu li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+#menu a {
+  color: #f1c40f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.titulo-secao {
+  text-align: center;
+  margin: 40px 0 20px;
+  color: #2c3e50;
+}
+
+.vitrine-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  background: #fff;
+  transition: transform 0.3s ease;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
   border-radius: 8px;
-  padding: 12px 20px;
-  margin-bottom: 24px;
-  font-size: 0.9rem;
-  color: #555;
 }
 
-#resumo-pedidos #valor-total-resumo {
+.preco {
+  display: block;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #e67e22;
+  margin: 15px 0;
+}
+
+.btn-pedido {
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
   font-size: 1rem;
 }
 
-/* ── Lista de pedidos ────────────────────────────────────── */
-#lista-pedidos {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 24px 0;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
+/* Quantidade moderna — substituiu o <input type="number"> */
+.quantidade-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px auto;
 }
 
-.item-pedido {
-  padding: 14px 20px;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 0.95rem;
-  color: #333;
+.btn-qtd {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #e67e22;
+  background: none;
+  color: #e67e22;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-qtd:hover {
+  background: #e67e22;
+  color: #fff;
+}
+
+.qtd-valor {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #2c3e50;
+  min-width: 24px;
+  text-align: center;
+}
+
+#rodape {
+  background: #2c3e50;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   AULA 7 — Estilos novos
+   ═══════════════════════════════════════════════════════ */
+
+/* Badge inserido pelo insertAdjacentHTML dentro do card */
+.badge-adicionado {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  background-color: #27ae60;
+  color: #fff;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* Seção de resumo — começa oculta, JS exibe quando necessário */
+#secao-resumo {
+  display: none;
+  max-width: 700px;
+  margin: 20px auto 40px;
+  padding: 25px;
+  background: #fff;
+  border: 2px solid #e67e22;
+  border-radius: 12px;
+}
+
+/* Lista de itens criados com createElement */
+#lista-resumo {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+
+/* Cada <li> criado pela função adicionarItemAoResumo() */
+.item-resumo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  padding: 10px 5px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+  color: #333;
+  /* Animação suave de entrada — o item "desce" ao aparecer */
+  animation: entrar 0.2s ease;
 }
 
-.item-pedido:last-child {
+.item-resumo:last-child {
   border-bottom: none;
 }
 
-.item-pedido:hover {
-  background: #fafafa;
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Botão ✕ remover item individual — Aula 7 → Aula 8
-   Na Aula 7 removia do DOM diretamente.
-   Aqui remove do localStorage e re-renderiza. */
-.btn-remover-item {
+/* Botão ✕ para remover item individual (criado com createElement) */
+.btn-remover {
   background: none;
   border: 1px solid #e74c3c;
   color: #e74c3c;
@@ -75,208 +204,202 @@
   transition: all 0.15s;
 }
 
-.btn-remover-item:hover {
+.btn-remover:hover {
   background: #e74c3c;
   color: #fff;
 }
 
-.subtotal-item {
-  color: #e67e22;
-  font-weight: bold;
-}
-
-.pedido-vazio {
-  padding: 30px 20px;
-  text-align: center;
-  color: #aaa;
-  font-style: italic;
-}
-
-.pedido-vazio a {
-  color: #e67e22;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.pedido-vazio a:hover {
-  text-decoration: underline;
-}
-
-/* ── Total geral e botões ────────────────────────────────── */
-#total-pedidos {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding-top: 16px;
-  border-top: 2px solid #e0e0e0;
-}
-
-#total-pedidos strong {
-  font-size: 1.1rem;
-  color: #2c3e50;
-}
-
-#valor-total {
-  color: #e67e22;
-  font-size: 1.2rem;
-}
-
-.btn-pedidos-grupo {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.btn-limpar-pedidos {
+/* Botão "Limpar tudo" */
+#btn-limpar {
   background: none;
-  border: 2px solid #e74c3c;
-  color: #e74c3c;
-  padding: 8px 16px;
+  border: 1px solid #2c3e50;
+  color: #2c3e50;
+  padding: 8px 18px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.85rem;
-  font-weight: bold;
   transition: all 0.15s;
 }
 
-.btn-limpar-pedidos:hover {
-  background: #e74c3c;
-  color: #fff;
-}
-
-.btn-voltar-cardapio {
+#btn-limpar:hover {
   background: #2c3e50;
   color: #fff;
-  padding: 8px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.85rem;
+}
+
+/* --- RESPONSIVIDADE (mantida das aulas anteriores) --- */
+@media screen and (max-width: 768px) {
+  .vitrine-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #label-menu {
+    display: block;
+    font-size: 2rem;
+    color: #f1c40f;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+  }
+
+  #menu ul {
+    display: none;
+  }
+
+  #bt_menu:checked ~ #menu ul {
+    display: block;
+    padding: 8px 0;
+  }
+
+  #menu li {
+    display: block;
+    margin: 0;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  #menu li:last-child {
+    border-bottom: none;
+  }
+
+  .vitrine-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-pedido {
+    padding: 15px;
+  }
+}
+
+/* =============================================================
+   AULA 7 → AULA 8
+   ============================================================= */
+
+/* ── Quantidade moderna — Aula 7 ─────────────────────────────
+   Substituiu o <input type="number"> por botões + e -.
+   ─────────────────────────────────────────────────────────── */
+.quantidade-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 12px 0;
+}
+
+.btn-qtd {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--cor-destaque, #e67e22);
+  background: none;
+  color: var(--cor-destaque, #e67e22);
+  font-size: 1.1rem;
   font-weight: bold;
-  transition: background 0.15s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
 }
 
-.btn-voltar-cardapio:hover {
-  background: #34495e;
+.btn-qtd:hover {
+  background: var(--cor-destaque, #e67e22);
+  color: #fff;
 }
 
-/* ── Responsivo ──────────────────────────────────────────── */
-@media (max-width: 600px) {
-  #total-pedidos {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.qtd-valor {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--cor-primaria, #2c3e50);
+  min-width: 24px;
+  text-align: center;
+}
 
-  .btn-pedidos-grupo {
-    width: 100%;
-  }
+/* ── Badge no card — Aula 7 → Aula 8 ────────────────────────
+   Inserido via insertAdjacentHTML quando o pedido é salvo.
+   Some após 2s — libera o card para novo pedido do mesmo prato.
+   ─────────────────────────────────────────────────────────── */
+.badge-adicionado {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  background: #27ae60;
+  color: #fff;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  font-weight: 500;
+  animation: fadeOut 2s forwards;
+}
 
-  .btn-limpar-pedidos,
-  .btn-voltar-cardapio {
-    width: 100%;
-    text-align: center;
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
   }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Destaque no link "Meus Pedidos" do menu — Aula 8 ────────
+   Ativado por atualizarContadorPedidos() após cada pedido salvo.
+   O link já existe no HTML — só ganha a classe e o badge.
+   ─────────────────────────────────────────────────────────── */
+a.menu-ativo {
+  color: #f1c40f !important;
+  font-weight: bold;
+}
+
+.badge-menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e67e22;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  margin-left: 5px;
+  vertical-align: middle;
 }
 
 /* =============================================================
    AULA 9
    ============================================================= */
 
-/* ── Layout do item de pedido ────────────────────────────────
-   Aula 8: item simples com nome e preço em linha.
-   Aula 9: duas linhas — info (nome + total) e status (badge + botão).
+/* ── Modal de boas-vindas ────────────────────────────────────
+   Estilos movidos para global.css (Aula 9) — centralizados lá
+   junto com o modal de confirmação (#modal-fechar-conta).
    ─────────────────────────────────────────────────────────── */
-.item-pedido {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
 
-.pedido-info {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  font-size: 0.95rem;
-}
-
-.pedido-info strong { color: #2c3e50; }
-
-.pedido-total {
-  color: #e67e22;
-  font-weight: bold;
-}
-
-.pedido-status {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* ── Badges de status ────────────────────────────────────────
-   Cor diferente para cada etapa do fluxo da cozinha.
-   Criados dinamicamente por gerarBotaoStatus() no pedidos.js.
+/* ── Loading e erro no cardápio ──────────────────────────────
+   Exibido por renderizarCardapio() enquanto os dados carregam
+   ou quando ocorre erro na requisição.
    ─────────────────────────────────────────────────────────── */
-.badge-status {
-  font-size: 0.7rem;
-  font-weight: bold;
-  padding: 3px 10px;
-  border-radius: 20px;
+.loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #aaa;
+  font-style: italic;
+  padding: 2rem;
+}
+
+.loading.erro {
+  color: #e74c3c;
+}
+
+/* ── Categoria do prato ──────────────────────────────────────
+   Exibida abaixo do nome — vem do campo categoria do banco.
+   ─────────────────────────────────────────────────────────── */
+.card .categoria {
+  font-size: 0.75rem;
+  color: #aaa;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.badge-pendente { background: #fff3cd; color: #856404; }
-.badge-preparo  { background: #ffe0b2; color: #e65100; }
-.badge-pronto   { background: #d4edda; color: #155724; }
-.badge-entregue { background: #e2e3e5; color: #555;    }
-
-/* ── Borda lateral colorida por status ───────────────────────
-   Aplicada ao <li> pelo pedidos.js via classList.add("status-X").
-   ─────────────────────────────────────────────────────────── */
-.status-pendente { border-left: 4px solid #f9a825; }
-.status-preparo  { border-left: 4px solid #e67e22; }
-.status-pronto   { border-left: 4px solid #27ae60; }
-.status-entregue { border-left: 4px solid #bbb; opacity: 0.7; }
-
-/* ── Botão de avançar status ─────────────────────────────────
-   Criado por gerarBotaoStatus() com onclick inline.
-   ─────────────────────────────────────────────────────────── */
-.btn-status {
-  background: #2c3e50;
-  color: #fff;
-  border: none;
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 0.78rem;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.btn-status:hover { background: #34495e; }
-
-.entregue-label {
-  font-size: 0.78rem;
-  color: #aaa;
-}
-
-/* ── Resumo rápido no topo ───────────────────────────────────
-   Mostra total de itens e valor total dos pedidos.
-   ─────────────────────────────────────────────────────────── */
-#resumo-pedidos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 12px 20px;
-  margin-bottom: 24px;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-#resumo-pedidos #valor-total-resumo {
-  font-weight: bold;
-  color: #e67e22;
+  margin-bottom: 8px;
 }

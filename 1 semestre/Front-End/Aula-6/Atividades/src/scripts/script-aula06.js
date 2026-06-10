@@ -35,3 +35,4 @@ btnReset.addEventListener('click', () => {
     
     previewTexto.textContent = "Digitando: ..."; //Reseta a frase do preview
 });
+

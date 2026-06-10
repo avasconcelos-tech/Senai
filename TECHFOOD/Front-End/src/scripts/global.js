@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   solicitarNomeCliente();
-  exibirNomeCliente();
   exibirBoasVindas();
+  exibirNomeCliente();
   exibirDataFooter(); // NEW
   fecharMenuAoNavegar(); // NEW
 });
@@ -16,7 +16,7 @@ function solicitarNomeCliente(){
     const btnConfirmar = document.getElementById("btn-confirmar-nome")
     const inputNome = document.getElementById("input-nome-cliente")
 
-    if(!btnConfirmar || inputNome) return;
+    if(!btnConfirmar || !inputNome) return;
 
     btnConfirmar.addEventListener("click", function(){
         const nome = inputNome.value.trim();
@@ -49,15 +49,26 @@ function exibirBoasVindas() {
 
   let saudacao;
   if (horaExata >= 5 && horaExata < 12) {
-    saudacao = "☀️ Bom dia! Qual o seu pedido?";
+    saudacao = "☀️ Bom dia!";
   } else if (horaExata >= 12 && horaExata < 18) {
-    saudacao = "🌤️ Boa tarde! Confira nosso cardápio.";
+    saudacao = "🌤️ Boa tarde!";
   } else {
-    saudacao = "🌙 Boa noite! Ainda dá tempo de pedir.";
+    saudacao = "🌙 Boa noite!";
   }
 
   const elemSaudacao = document.querySelector("#boas-vindas");
   if (elemSaudacao) elemSaudacao.textContent = saudacao;
+}
+
+function exibirNomeCliente() {
+  const nome = sessionStorage.getItem("techfood_cliente");
+  const elem = document.querySelector("#boas-vindas");
+  if (!elem || !nome) return;
+
+  if (elem.textContent.includes(nome)) return;
+
+  const saudacao = elem.textContent.trim().replace(/!$/, "");
+  elem.textContent = `${saudacao}, ${nome}!`;
 }
 
 function exibirDataFooter() {

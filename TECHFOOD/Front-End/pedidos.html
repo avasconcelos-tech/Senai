@@ -27,10 +27,10 @@
           para o pr&#243;ximo cliente.
         </p>
         <div class="modal-btn-grupo">
-          <button id="btn-cancelar-fechar" class="modal-btn-secundario">
+          <button type="button" id="btn-cancelar-fechar" class="modal-btn-secundario">
             Cancelar
           </button>
-          <button id="btn-confirmar-fechar" class="modal-btn-perigo">
+          <button type="button" id="btn-confirmar-fechar" class="modal-btn-perigo">
             &#10003; Confirmar
           </button>
         </div>
@@ -81,21 +81,21 @@
         <div id="total-pedidos">
           <strong>Total Geral: <span id="valor-total">R$ 0,00</span></strong>
           <div class="btn-pedidos-grupo">
-            <button id="btn-limpar-pedidos" class="btn-limpar-pedidos">
+            <button type="button" id="btn-limpar-pedidos" class="btn-limpar-pedidos">
               &#128465; Limpar Pedidos
             </button>
             <!--
               Aula 9: exibe tudo que foi enviado à cozinha nesta sessão.
               Mostra o histórico acumulado — o somatório é o Total Geral da mesa.
             -->
-            <button id="btn-ver-conta" class="btn-voltar-cardapio">
+            <button type="button" id="btn-ver-conta" class="btn-voltar-cardapio">
               &#128203; Ver Conta da Mesa
             </button>
             <!--
               Aula 9: botão que envia o carrinho do localStorage ao banco de dados.
               Chama configurarEnviarCozinha() em pedidos.js via POST /pedidos.
             -->
-            <button id="btn-enviar-cozinha" class="btn-enviar-cozinha">
+            <button type="button" id="btn-enviar-cozinha" class="btn-enviar-cozinha">
               &#127859; Enviar para Cozinha
             </button>
           </div>
@@ -115,7 +115,7 @@
               Zera total, historico e nome do cliente — volta ao modal de boas-vindas.
               Pagamento é feito no caixa fora do sistema.
             -->
-            <button id="btn-fechar-conta" class="btn-enviar-cozinha" style="background:#c0392b;">
+            <button type="button" id="btn-fechar-conta" class="btn-enviar-cozinha" style="background:#c0392b;">
               &#10003; Fechar Conta da Mesa
             </button>
           </div>

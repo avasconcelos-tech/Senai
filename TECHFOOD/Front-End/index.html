@@ -25,7 +25,7 @@
           placeholder="Digite seu nome..."
           maxlength="30"
         />
-        <button id="btn-confirmar-nome">Confirmar</button>
+        <button type="button" id="btn-confirmar-nome">Confirmar</button>
       </div>
     </div>
 
@@ -72,12 +72,6 @@
       <p id="data-hora-footer"></p>
     </footer>
 
-    <!--
-      Ordem dos scripts — importante:
-      1. global.js → funções compartilhadas (saudação, modal)
-      2. api.js    → funções de fetch (main.js depende delas)
-      3. main.js   → lógica do cardápio
-    -->
     <script src="src/scripts/global.js"></script>
     <script src="src/scripts/api.js"></script>
     <script src="src/scripts/main.js"></script>

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   renderizarCardapio(); // NEW — busca produtos da API e monta os cards
   inicializarVitrine();
-  inicializarHoverCards();
 });
 
 async function renderizarCardapio() {
@@ -35,10 +34,12 @@ async function renderizarCardapio() {
         `<span class='preco' data-preco='${produto.preco}'>` +
           `R$ ${parseFloat(produto.preco).toFixed(2).replace(".", ",")}` +
         `</span>` +
-        `<button class='btn-pedido'>Pedir Agora</button>`;
+        `<button type='button' class='btn-pedido'>Pedir Agora</button>`;
 
       grid.appendChild(card);
     });
+
+    inicializarHoverCards();
   } catch (erro) {
     // UX: a grid exibe mensagem de erro — o usuário sabe que o cardápio não
     // carregou e pode recarregar a página. Diferente do botão "Enviar para
@@ -103,25 +104,33 @@ function inicializarVitrine() {
 function atualizarPrecoCard(box) {
   const card          = box.parentElement;
   const spanPreco     = card.querySelector(".preco");
-  const precoUnitario = parseFloat(spanPreco.getAttribute("data-preco"));
+  const precoUnitario = Number(spanPreco.getAttribute("data-preco"));
   const quantidade    = Number(box.querySelector(".qtd-valor").textContent);
   const total         = precoUnitario * quantidade;
+
+  if (!Number.isFinite(precoUnitario) || !Number.isFinite(quantidade)) return;
 
   spanPreco.textContent = `R$ ${total.toFixed(2).replace(".", ",")}`;
   spanPreco.style.color = total > 150 ? "#c0392b" : "#e67e22";
 }
 
 function salvarPedido(produtoId, quantidade, botao) {
-  const card    = botao.parentElement;
-  const nome    = card.querySelector("h3").textContent;
-  const preco   = parseFloat(card.querySelector(".preco").getAttribute("data-preco"));
-  const subtotal = preco * quantidade;
+  const card     = botao.parentElement;
+  const nome     = card.querySelector("h3").textContent;
+  const preco    = Number(card.querySelector(".preco").getAttribute("data-preco"));
+  const quantidade = Number(quantidade);
+  const subtotal = Number((preco * quantidade).toFixed(2));
+
+  if (!Number.isFinite(preco) || !Number.isFinite(quantidade) || quantidade <= 0 || !Number.isFinite(subtotal)) {
+    alert('Erro ao adicionar o pedido. Verifique a quantidade e tente novamente.');
+    return;
+  }
 
   // Padrão Aula 8: ler → modificar → salvar
   const lista = JSON.parse(localStorage.getItem("techfood_pedidos") || "[]");
   lista.push({
-    produto_id: produtoId,  // ⚠ novo em Aula 9 — usado pelo criarPedido()
-    quantidade,             // ⚠ renomeado de qtd para quantidade (formato API)
+    produto_id: Number(produtoId),  // ⚠ novo em Aula 9 — usado pelo criarPedido()
+    quantidade,
     nome,
     preco,
     subtotal,
@@ -162,4 +171,33 @@ function atualizarContadorPedidos() {
 
   badge.textContent = total;
   linkMenu.classList.add("menu-ativo");
+}
+
+function criarCardProduto(produto) {
+    
+    const urlImagem = produto.foto 
+        ? `http://localhost:3000/uploads/${produto.foto}` 
+        : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+
+    const cardHTML = `
+        <div class="card" data-id="${produto.id}">
+            <img src="${urlImagem}" alt="${produto.nome}" />
+            
+            <div class="categoria">${produto.categoria || 'Geral'}</div>
+            <h3>${produto.nome}</h3>
+            <p>${produto.descricao}</p>
+            
+            <span class="preco">R$ ${Number(produto.preco).toFixed(2)}</span>
+            
+            <div class="quantidade-box">
+                <button class="btn-qtd btn-menos">-</button>
+                <span class="qtd-valor">0</span>
+                <button class="btn-qtd btn-mais">+</button>
+            </div>
+            
+            <button type="button" class="btn-pedido">Adicionar</button>
+        </div>
+    `;
+
+    return cardHTML;
 }

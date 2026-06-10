@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = ""; // usa a mesma origem da página atual
 
 async function buscarProdutos() {
   const response = await fetch(`${BASE_URL}/produtos`);

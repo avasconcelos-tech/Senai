@@ -16,7 +16,7 @@ function renderizarPedidos() {
 
   // Conta da mesa: acumulado de pedidos já enviados à cozinha nesta sessão.
   // sessionStorage persiste enquanto a aba estiver aberta — cada mesa é uma sessão.
-  const totalMesa = parseFloat(sessionStorage.getItem("techfood_total_mesa") || "0");
+  const totalMesa = parseNumber(sessionStorage.getItem("techfood_total_mesa"));
 
   const pedidos = JSON.parse(localStorage.getItem("techfood_pedidos") || "[]");
 
@@ -39,14 +39,19 @@ function renderizarPedidos() {
     const li = document.createElement("li");
     li.classList.add("item-pedido");
 
+    const preco = parseNumber(pedido.preco);
+    const subtotal = parseNumber(pedido.subtotal);
+    const quantidade = parseNumber(pedido.quantidade);
+
     const textoSpan = document.createElement("span");
     textoSpan.innerHTML =
       `<strong>${pedido.nome}</strong>` +
-      ` — ${pedido.quantidade}x` +
-      ` R$ ${pedido.preco.toFixed(2).replace(".", ",")}` +
-      ` = <span class='subtotal-item'>R$ ${pedido.subtotal.toFixed(2).replace(".", ",")}</span>`;
+      ` — ${quantidade}x` +
+      ` R$ ${preco.toFixed(2).replace(".", ",")}` +
+      ` = <span class='subtotal-item'>R$ ${subtotal.toFixed(2).replace(".", ",")}</span>`;
 
     const btnRemover = document.createElement("button");
+    btnRemover.type = "button";
     btnRemover.textContent = "✕";
     btnRemover.classList.add("btn-remover-item");
 
@@ -71,10 +76,15 @@ function renderizarPedidos() {
   const totalGeral = totalMesa + totalCarrinho;
   if (spanTotal) spanTotal.textContent = `R$ ${totalGeral.toFixed(2).replace(".", ",")}`;
 
-  const totalItens = pedidos.reduce(function (acc, p) { return acc + p.quantidade; }, 0);
+  const totalItens = pedidos.reduce(function (acc, p) { return acc + parseNumber(p.quantidade); }, 0);
   if (spanContador) {
     spanContador.textContent = `${totalItens} ${totalItens === 1 ? "item" : "itens"}`;
   }
+}
+
+function parseNumber(value, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
 }
 
 function configurarLimparPedidos() {
@@ -116,8 +126,8 @@ function configurarEnviarCozinha() {
       // Acumula o total do carrinho atual na conta da mesa.
       // reduce() soma todos os subtotais do carrinho atual.
       // Depois de somar, o pedido já foi enviado — será cobrado.
-      const totalCarrinho = pedidos.reduce(function (acc, p) { return acc + p.subtotal; }, 0);
-      const totalMesa     = parseFloat(sessionStorage.getItem("techfood_total_mesa") || "0");
+      const totalCarrinho = pedidos.reduce(function (acc, p) { return acc + parseNumber(p.subtotal); }, 0);
+      const totalMesa     = parseNumber(sessionStorage.getItem("techfood_total_mesa"));
       sessionStorage.setItem("techfood_total_mesa", (totalMesa + totalCarrinho).toString());
 
       // Salva os itens no histórico da sessão para o painel "Ver Conta da Mesa".
@@ -227,13 +237,16 @@ function renderizarContaMesa() {
 
   lista.innerHTML = "";
   historico.forEach(function (item) {
+    const preco = parseNumber(item.preco);
+    const subtotal = parseNumber(item.subtotal);
+
     const li = document.createElement("li");
     li.classList.add("item-pedido");
     li.innerHTML =
       `<strong>${item.nome}</strong>` +
-      ` — ${item.quantidade}x` +
-      ` R$ ${item.preco.toFixed(2).replace(".", ",")}` +
-      ` = <span class='subtotal-item'>R$ ${item.subtotal.toFixed(2).replace(".", ",")}</span>`;
+      ` — ${parseNumber(item.quantidade)}x` +
+      ` R$ ${preco.toFixed(2).replace(".", ",")}` +
+      ` = <span class='subtotal-item'>R$ ${subtotal.toFixed(2).replace(".", ",")}</span>`;
     lista.appendChild(li);
   });
 }

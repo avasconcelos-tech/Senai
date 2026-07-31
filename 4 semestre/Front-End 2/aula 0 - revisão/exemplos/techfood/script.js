@@ -68,5 +68,7 @@ cardapio.forEach(prato =>{
 
 renderizarCardapio()
 
+cardapio[0].aplicarDesconto(20)
 
 
+renderizarCardapio()

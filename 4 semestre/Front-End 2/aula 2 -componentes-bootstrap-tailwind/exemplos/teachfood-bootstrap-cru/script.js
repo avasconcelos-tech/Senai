@@ -59,47 +59,26 @@ function criarCardPrato(prato) {
   const card = document.createElement("article");
   card.className = "card-prato card h-100";
 
-  /*
-    LIVE CODE — PASSO 2:
-    Trocar o innerHTML abaixo pelo componente Bootstrap:
+  // LIVE CODE — PASSO 2:
+  // Trocar o innerHTML abaixo pelo componente Bootstrap:
 
-    card.innerHTML = `
-      <div class="card-body">
-        <h5 class="card-title fw-bold">${prato.nome}</h5>
-        <p class="card-text text-muted">${prato.categoria}</p>
-        <p class="card-text fs-5 fw-bold text-success">${prato.formatarPreco()}</p>
-      </div>
-      <div class="card-footer bg-transparent border-top-0 pb-3">
-        <button class="btn btn-danger w-100"
-                data-bs-toggle="modal"
-                data-bs-target="#modalPrato"
-                data-nome="${prato.nome}"
-                data-categoria="${prato.categoria}"
-                data-preco="${prato.formatarPreco()}"
-                data-descricao="${prato.descricao}">
-          Ver detalhes
-        </button>
-      </div>
-    `;
-  */
   card.innerHTML = `
-  <div class="card-body">
-    <h5 class="card-title fw-bold"> ${prato.nome}</h5>
-    <p class="card-text text-mutted">${prato.categoria}</p>
-    <p class="card-text fs-5 fw-bold text-sucess">${prato.formatarPreco()}</p>
+    <div class="card-body">
+      <h5 class="card-title fw-bold"> ${prato.nome}</h5>
+      <p class="card-text text-mutted">${prato.categoria}</p>
+      <p class="card-text fs-5 fw-bold text-sucess">${prato.formatarPreco()}</p>
+    </div>
+    <div class="card-footer bg-transparent border-top-0 pb-3">
+        <button class="btn btn-danger w-100" 
+             data-bs-toggle="modal" 
+             data-bs-target="#modalPrato" 
+             data-nome="${prato.nome}"
+             data-categoria="${prato.categoria}"
+             data-preco="${prato.formatarPreco()}"
+             data-descricao="${prato.descricao}">
+    Ver Detalhes
+    </button>
   </div>
-  <div class="card-footer bg-transparent border-top-0 pb-3">
-    <button class="btn btn-danger w-100" 
-      data-bs-toggle="modal" 
-  data-bs-target="#modalPrato" 
-  data-nome="${prato.nome}"
-  data-categoria="${prato.categoria}"
-  data-preco="${prato.formatarPreco}"
-  data-descricao="${prato.descricao}">
-  </button>
-  
-  </div>
-
   `;
 
   col.appendChild(card);
@@ -115,20 +94,15 @@ function renderizarCardapio() {
 
 renderizarCardapio();
 
-/*
-  LIVE CODE — PASSO 4 (Modal):
-  Depois de adicionar o modal no HTML, conectar os botões:
+// LIVE CODE — PASSO 4 (Modal):
+// Depois de adicionar o modal no HTML, conectar os botões:
 
-  document.addEventListener('show.bs.modal', (event) => {
-    const btn    = event.relatedTarget;
-    const nome   = btn.getAttribute('data-nome');
-    const cat    = btn.getAttribute('data-categoria');
-    const preco  = btn.getAttribute('data-preco');
-    const desc   = btn.getAttribute('data-descricao');
+document.addEventListener("show.bs.modal", (event) => {
+  const btn = event.relatedTarget;
+  if (!btn) return;
 
-    document.getElementById('modalNome').textContent      = nome;
-    document.getElementById('modalCategoria').textContent = cat;
-    document.getElementById('modalPreco').textContent     = preco;
-    document.getElementById('modalDescricao').textContent = desc;
-  });
-*/
+  document.querySelector("#modalNome").textContent = btn.getAttribute('data-nome');
+  document.querySelector("#modalCategoria").textContent = btn.getAttribute('data-categoria');
+  document.querySelector("#modalPreco").textContent = btn.getAttribute('data-preco');
+  document.querySelector("#modalDescricao").textContent = btn.getAttribute('data-descricao');
+});

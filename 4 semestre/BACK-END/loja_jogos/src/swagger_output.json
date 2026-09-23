@@ -22,6 +22,40 @@
       },
       "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados do novo jogo",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Call of Duty"
+                },
+                "desenvolvedora": {
+                  "type": "string",
+                  "example": "Activision"
+                },
+                "preco": {
+                  "type": "number",
+                  "example": 59.99
+                },
+                "anoLancamento": {
+                  "type": "number",
+                  "example": 2020
+                }
+              },
+              "required": [
+                "nome",
+                "desenvolvedora",
+                "preco",
+                "anoLancamento"
+              ]
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -60,6 +94,38 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados atualizados do jogo",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Call of Duty"
+                },
+                "desenvolvedora": {
+                  "type": "string",
+                  "example": "Activision"
+                },
+                "preco": {
+                  "type": "number",
+                  "example": 65.99
+                },
+                "anoLancamento": {
+                  "type": "number",
+                  "example": 2020
+                }
+              },
+              "required": [
+                "nome",
+                "desenvolvedora",
+                "preco",
+                "anoLancamento"
+              ]
+            }
           }
         ],
         "responses": {

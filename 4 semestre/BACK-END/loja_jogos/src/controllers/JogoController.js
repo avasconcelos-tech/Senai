@@ -1,50 +1,64 @@
-const JogoService = require('../services/JogoService');
+const JogoService = require("../services/JogoService");
 
 class JogoController {
-    listar(req, res) {
-        const resultado = JogoService.listarJogos();
-        res.json(resultado);
-    }
+  listar(req, res) {
+    const resultado = JogoService.listarJogos();
+    res.json(resultado);
+  }
 
-    buscarPorId(req, res) {
-        const resultado = JogoService.buscarJogoPorId(req.params.id);
-        if(!resultado.sucesso) {
-            return res.status(404).json(resultado);
-        }
-        res.json(resultado);
+  buscarPorId(req, res) {
+    const resultado = JogoService.buscarJogoPorId(req.params.id);
+    if (!resultado.sucesso) {
+      return res.status(404).json(resultado);
     }
+    res.json(resultado);
+  }
 
-    cadastrar(req, res) {
-        /*  #swagger.parameters['body'] = {
+  cadastrar(req, res) {
+    /*  #swagger.parameters['body'] = {
                 in: 'body',
                 description: 'Dados do novo jogo',
                 schema: {
-                    // ALUNO: PREENCHA O SCHEMA AQUI BASEADO NOS REQUISITOS DO ENUNCIADO!
+                    $nome: 'Call of Duty',
+                    $desenvolvedora: 'Activision',
+                    $preco: 59.99,
+                    $anoLancamento: 2020
                 }
             }
         */
-        const resultado = JogoService.cadastrarJogo(req.body);
-        if(!resultado.sucesso) {
-            return res.status(400).json(resultado);
-        }
-        res.status(201).json(resultado);
+    const resultado = JogoService.cadastrarJogo(req.body);
+    if (!resultado.sucesso) {
+      return res.status(400).json(resultado);
     }
+    res.status(201).json(resultado);
+  }
 
-    atualizar(req, res) {
-        const resultado = JogoService.atualizarJogo(req.params.id, req.body);
-        if(!resultado.sucesso) {
-            return res.status(404).json(resultado);
-        }
-        res.json(resultado);
+  atualizar(req, res) {
+    /*  #swagger.parameters['body'] = {
+                in: 'body',
+                description: 'Dados atualizados do jogo',
+                schema: {
+                    $nome: 'Call of Duty',
+                    $desenvolvedora: 'Activision',
+                    $preco: 65.99,
+                    $anoLancamento: 2020
+                }
+            }
+        */
+    const resultado = JogoService.atualizarJogo(req.params.id, req.body);
+    if (!resultado.sucesso) {
+      return res.status(404).json(resultado);
     }
+    res.json(resultado);
+  }
 
-    deletar(req, res) {
-        const resultado = JogoService.deletarJogo(req.params.id);
-        if(!resultado.sucesso) {
-            return res.status(404).json(resultado);
-        }
-        res.status(204).send();
+  deletar(req, res) {
+    const resultado = JogoService.deletarJogo(req.params.id);
+    if (!resultado.sucesso) {
+      return res.status(404).json(resultado);
     }
+    res.status(204).send();
+  }
 }
 
 module.exports = new JogoController();
